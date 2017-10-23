@@ -43,18 +43,21 @@ public class UserDao {
         return user;
     }
 
-    public void insertUser(User user){
+    public boolean insertUser(User user){
          Object[] args = {user.getName(),user.getPhone(),user.getPassword(),user.getLastIp(),user.getLastVisit()};
-         jdbcTemplate.update(INSERT_USER_SQL, args);
+         int count = jdbcTemplate.update(INSERT_USER_SQL, args);
+        return count > 0;
     }
 
-    public void updateLogInfo(User user){
+    public boolean updateLogInfo(User user){
         Object[] args = {user.getLastIp(),user.getLastVisit(),user.getUserId()};
-        jdbcTemplate.update(UPDATE_LOGINFO_SQL,args);
+        int count = jdbcTemplate.update(UPDATE_LOGINFO_SQL,args);
+        return count > 0;
     }
 
-    public void updatePassword(final int userId,final String passWord){
-        jdbcTemplate.update(UPDATE_PASSWORD_SQL,new Object[] {passWord,userId});
+    public boolean updatePassword(final int userId,final String passWord){
+        int count = jdbcTemplate.update(UPDATE_PASSWORD_SQL,new Object[] {passWord,userId});
+        return count > 0;
     }
 
 }

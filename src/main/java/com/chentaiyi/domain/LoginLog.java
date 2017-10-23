@@ -3,6 +3,7 @@ package com.chentaiyi.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+
 /**
  * Created by hasee on 2017/10/12.
  */

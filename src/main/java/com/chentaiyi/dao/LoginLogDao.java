@@ -18,9 +18,10 @@ public class LoginLogDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void updateLoginLog(LoginLog log){
+    public boolean updateLoginLog(LoginLog log){
         Object[] args = {log.getUserId(),log.getIp(),log.getLoginDate()};
-        jdbcTemplate.update(INSERT_LOGINLOG_SQL,args);
+        int count = jdbcTemplate.update(INSERT_LOGINLOG_SQL,args);
+        return count > 0;
     }
 
 }
