@@ -14,7 +14,7 @@ import java.sql.SQLException;
 @Repository
 public class UserDao {
     private JdbcTemplate jdbcTemplate;
-    private final String MATCH_COUNT_SQL = " SELECT count(*) FROM user WHERE username=? and password=?";
+    private final String MATCH_COUNT_SQL = " SELECT count(*) FROM user WHERE phone=? and password=?";
     private final String INSERT_USER_SQL = " INSERT INTO user(username,phone,password,lastip,lastvisit) "+
                                                 " VALUES(?,?,?,?,?)";
     private final String UPDATE_LOGINFO_SQL = " UPDATE user SET lastip=?,lastvisit=? WHERE userid=?";

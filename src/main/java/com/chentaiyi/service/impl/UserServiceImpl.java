@@ -25,8 +25,8 @@ public class UserServiceImpl  implements UserService{
         this.loginLogDao = loginLogDao;
     }
 
-    public boolean hasMatchUser(String userName, String passWord) {
-        int count = userDao.getMatchCount(userName,passWord);
+    public boolean hasMatchUser(String phone, String passWord) {
+        int count = userDao.getMatchCount(phone,passWord);
         return count > 0;
     }
 
@@ -34,7 +34,7 @@ public class UserServiceImpl  implements UserService{
         return userDao.findUser(data);
     }
     @Transactional
-    public void LoginSuccess(User user) {
+    public void loginSuccess(User user) {
         userDao.updateLogInfo(user);
         LoginLog loginLog = new LoginLog();
         loginLog.setUserId(user.getUserId());
