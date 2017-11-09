@@ -33,27 +33,26 @@ public class UserServiceTest extends AbstractTransactionalTestNGSpringContextTes
         assert(b2==false);
         assert(b3==false);
     }
-
+    /*
     @Test
+
     public void createUser(){
 
-        final String FIND_USER_SQL = " SELECT * FROM user WHERE phone= ?";
 
         final User user  = new User();
         user.setPhone("13968131600");
         user.setPassword("123");
         user.setName("jiying");
         boolean success= userService.createUser(user);
-        /*
-        jdbcTemplate.query(FIND_USER_SQL, new Object[]{user.getPhone()}, new RowCallbackHandler() {
-            public void processRow(ResultSet resultSet) throws SQLException {
-                user.setUserId(resultSet.getInt("userid"));
-                user.setName(resultSet.getString("username"));
-                user.setPhone(resultSet.getString("phone"));
-                user.setLastIp(resultSet.getString("lastip"));
-                user.setLastVisit(resultSet.getTimestamp("lastvisit"));
-            }
-        });*/
-        assert(success == true);
+
+        //assert(success == true);
+
+    }*/
+
+    @Test
+    public void findUser(){
+        User user = userService.findUserByData("13575714535");
+        String userName = user.getName();
+        assert(userName=="chentaiyi");
     }
 }

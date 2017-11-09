@@ -1,5 +1,6 @@
 package com.chentaiyi.dao;
 
+import com.chentaiyi.common.dao.BaseDao;
 import com.chentaiyi.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,9 +13,10 @@ import java.sql.SQLException;
  * Created by hasee on 2017/10/12.
  */
 @Repository
-public class UserDao {
+public class UserDao extends BaseDao<User> {
     private JdbcTemplate jdbcTemplate;
     private final String MATCH_COUNT_SQL = " SELECT count(*) FROM user WHERE phone=? and password=?";
+    private final String FIND_USER_SQL = " SELECT userid,phone,username,lastip,lastvisit FROM user WHERE phone=?";
     private final String INSERT_USER_SQL = " INSERT INTO user(username,phone,password,lastip,lastvisit) "+
                                                 " VALUES(?,?,?,?,?)";
     private final String UPDATE_LOGINFO_SQL = " UPDATE user SET lastip=?,lastvisit=? WHERE userid=?";
@@ -30,16 +32,7 @@ public class UserDao {
     }
 
     public <T> User findUser(final T data){
-        final User user = new User();
-        jdbcTemplate.query(MATCH_COUNT_SQL, new Object[]{data}, new RowCallbackHandler() {
-            public void processRow(ResultSet resultSet) throws SQLException {
-                user.setUserId(resultSet.getInt("userid"));
-                user.setName(resultSet.getString("username"));
-                user.setPhone(resultSet.getString("phone"));
-                user.setLastIp(resultSet.getString("lastip"));
-                user.setLastVisit(resultSet.getTimestamp("lastvisit"));
-            }
-        });
+        User user = getRowForObject(FIND_USER_SQL,new Object[]{data},User.class);
         return user;
     }
 
