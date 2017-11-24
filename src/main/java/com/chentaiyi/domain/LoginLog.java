@@ -17,6 +17,7 @@ public class LoginLog implements Serializable {
         return loginLogId;
     }
 
+    public  void setLoginLogId(long loginLogId){this.loginLogId = loginLogId;}
 
     public long getUserId() {
         return userId;

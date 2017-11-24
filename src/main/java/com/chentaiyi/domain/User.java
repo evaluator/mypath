@@ -10,9 +10,19 @@ public class User implements Serializable{
     private long userId;
     private String phone;
     private String password;
-    private String name;
+    private String userName;
     private String lastIp;
     private Timestamp lastVisit;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+
 
     public long getUserId() {
         return userId;
@@ -38,13 +48,7 @@ public class User implements Serializable{
         this.password = password;
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getLastIp() {
         return lastIp;

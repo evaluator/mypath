@@ -16,8 +16,6 @@ import java.sql.SQLException;
  */
 @ContextConfiguration("classpath*:/mypath-context.xml")
 public class UserServiceTest extends AbstractTransactionalTestNGSpringContextTests {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
     private UserService userService;
     @Autowired
     void setUserService(UserService userService){
@@ -51,8 +49,8 @@ public class UserServiceTest extends AbstractTransactionalTestNGSpringContextTes
 
     @Test
     public void findUser(){
-        User user = userService.findUserByData("13575714535");
-        String userName = user.getName();
-        assert(userName=="chentaiyi");
+        User user = userService.findUserByData("1300000000");
+        String userName = user.getUserName();
+        assert(userName.equals("aaa"));
     }
 }

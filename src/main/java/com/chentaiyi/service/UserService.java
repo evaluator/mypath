@@ -9,6 +9,6 @@ public interface UserService {
      public boolean hasMatchUser(String phone,String passWord);
      public <T> User findUserByData(T data);
      public void loginSuccess(User user);
-     public boolean createUser(User user);
+     public long createUser(User user);
      public boolean updatePassword(int userId,String password);
 }

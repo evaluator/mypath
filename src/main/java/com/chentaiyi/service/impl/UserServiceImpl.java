@@ -40,16 +40,16 @@ public class UserServiceImpl  implements UserService{
         loginLog.setUserId(user.getUserId());
         loginLog.setIp(user.getLastIp());
         loginLog.setLoginDate(user.getLastVisit());
-        loginLogDao.updateLoginLog(loginLog);
+        loginLogDao.insertLoginLog(loginLog);
     }
 
     @Transactional
-    public boolean createUser(User user) {
+    public long createUser(User user) {
         return userDao.insertUser(user);
     }
 
     @Transactional
     public boolean updatePassword(int userId, String password) {
-        return userDao.updatePassword(userId,password);
+        return userDao.updatePassword(userId,password)>0;
     }
 }

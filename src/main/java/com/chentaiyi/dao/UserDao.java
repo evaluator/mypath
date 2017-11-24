@@ -1,6 +1,8 @@
 package com.chentaiyi.dao;
 
 import com.chentaiyi.common.dao.BaseDao;
+import com.chentaiyi.common.plugs.Page;
+import com.chentaiyi.common.plugs.PageRequest;
 import com.chentaiyi.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,49 +10,76 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 
 /**
  * Created by hasee on 2017/10/12.
  */
 @Repository
 public class UserDao extends BaseDao<User> {
-    private JdbcTemplate jdbcTemplate;
+
     private final String MATCH_COUNT_SQL = " SELECT count(*) FROM user WHERE phone=? and password=?";
-    private final String FIND_USER_SQL = " SELECT userid,phone,username,lastip,lastvisit FROM user WHERE phone=?";
-    private final String INSERT_USER_SQL = " INSERT INTO user(username,phone,password,lastip,lastvisit) "+
+    private final String FIND_USER_SQL = " SELECT * FROM user WHERE phone=?";
+    private final String INSERT_USER_SQL = " INSERT INTO user(user_name,phone,password,last_ip,last_visit) "+
                                                 " VALUES(?,?,?,?,?)";
-    private final String UPDATE_LOGINFO_SQL = " UPDATE user SET lastip=?,lastvisit=? WHERE userid=?";
-    private final String UPDATE_PASSWORD_SQL = " UPDATE user SET password = ? WHERE userid = ?";
+    private final String UPDATE_LOGINFO_SQL = " UPDATE user SET last_ip=?,last_visit=? WHERE user_id=?";
+    private final String UPDATE_PASSWORD_SQL = " UPDATE user SET password = ? WHERE user_id = ?";
+    private final String DELETE_USER_SQL = " DELETE FROM user Where user_id=?";
+    private final String QUERY_ALL_USERS_SQL =" SELECT * FROM user";
 
-    @Autowired
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-
-    }
+    /*
+     *   查找用户名密码匹配的记录数
+     */
     public int getMatchCount(String userName,String passWord){
         return jdbcTemplate.queryForInt(MATCH_COUNT_SQL,new Object[] {userName,passWord});
     }
 
+    /*
+     *   根据不同信息查找用户
+     */
     public <T> User findUser(final T data){
-        User user = getRowForObject(FIND_USER_SQL,new Object[]{data},User.class);
+        User user = getRowForObject(FIND_USER_SQL, new Object[]{data}, User.class);
         return user;
     }
 
-    public boolean insertUser(User user){
-         Object[] args = {user.getName(),user.getPhone(),user.getPassword(),user.getLastIp(),user.getLastVisit()};
-         int count = jdbcTemplate.update(INSERT_USER_SQL, args);
-        return count > 0;
+    /*
+     *   插入一条用户记录
+     */
+    public long insertUser(User user){
+         Object[] args = { user.getUserName(),user.getPhone(),user.getPassword(),user.getLastIp(),user.getLastVisit()};
+         int[] types = { Types.VARCHAR,Types.VARCHAR,Types.VARCHAR,Types.VARCHAR,Types.DATE};
+         return insertAndGetId(INSERT_USER_SQL,args,null);
     }
 
-    public boolean updateLogInfo(User user){
+    /*
+     *   更新登录记录
+     */
+    public int updateLogInfo(User user){
         Object[] args = {user.getLastIp(),user.getLastVisit(),user.getUserId()};
-        int count = jdbcTemplate.update(UPDATE_LOGINFO_SQL,args);
-        return count > 0;
+        return addUpdateDelete(UPDATE_LOGINFO_SQL, args, null);
     }
 
-    public boolean updatePassword(final int userId,final String passWord){
-        int count = jdbcTemplate.update(UPDATE_PASSWORD_SQL,new Object[] {passWord,userId});
-        return count > 0;
+    /*
+     *   密码更新
+     */
+
+    public int updatePassword(final long userId,final String passWord){
+       return addUpdateDelete(UPDATE_PASSWORD_SQL,new Object[] {passWord,userId},null);
+    }
+    /*
+     *   删除密码
+    */
+    public int deleteUser(final long userId){
+        return addUpdateDelete(DELETE_USER_SQL,new Object[]{userId},null);
+    }
+
+    /*
+     *   调取一页用户记录
+    */
+
+    public Page<User> getPagedUser(final int pageNo,final int pageSize){
+        PageRequest pageRequest = new PageRequest(pageNo,pageSize);
+        return findPage(QUERY_ALL_USERS_SQL,null,pageRequest,User.class);
     }
 
 }

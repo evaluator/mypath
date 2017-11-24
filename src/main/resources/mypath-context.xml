@@ -26,6 +26,8 @@
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
+    <bean id="sqlPageHandler" class="com.chentaiyi.common.plugs.Impl.MySQLPageHandlerImpl"/>
+
 
 
 </beans>
