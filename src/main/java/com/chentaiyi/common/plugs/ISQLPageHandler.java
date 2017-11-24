@@ -5,4 +5,5 @@ package com.chentaiyi.common.plugs;
  */
 public interface ISQLPageHandler {
     public String convertPageSQL(String originSQL,int pageNo,int pageSize);
+    public int getTotalItems(String querySQL);
 }

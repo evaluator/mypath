@@ -133,7 +133,7 @@ public class BaseDao<T> {
         }
     }
     public Map<String, Object> getMapData(String sql, Object[] params) {
-        return jdbcTemplate.queryForMap(sql,params);
+        return jdbcTemplate.queryForMap(sql, params);
     }
 
 
@@ -147,9 +147,20 @@ public class BaseDao<T> {
     public Page<T> findPage(final String sql,Object[] args, PageRequest pageRequest,Class<T> tClass){
         Page<T> page = new Page<T>(pageRequest);
         List<T> results = null;
-        String pagedSQL = sqlPageHandler.convertPageSQL(sql,pageRequest.getPageNo(),pageRequest.getPageSize());
-        results = getRows(pagedSQL,args,tClass);
+        page.setTotalItems(sqlPageHandler.getTotalItems(sql));
+        if(pageRequest.getPageNo() <= page.getTotalPages()) {
+            String pagedSQL = sqlPageHandler.convertPageSQL(sql, pageRequest.getPageNo(), pageRequest.getPageSize());
+            results = getRows(pagedSQL, args, tClass);
+        }
         page.setResult(results);
         return page;
+    }
+
+    public int getlastPageNo(final String sql,Object[] args,int[] types,int pageSize){
+         int totalItems = jdbcTemplate.queryForInt(sql,args,types);
+         PageRequest pageRequest = new PageRequest(1,pageSize);
+         Page page = new Page(pageRequest);
+         page.setTotalItems(totalItems);
+         return page.getTotalPages();
     }
 }

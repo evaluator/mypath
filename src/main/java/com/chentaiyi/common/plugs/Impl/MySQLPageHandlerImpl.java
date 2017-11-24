@@ -18,6 +18,9 @@ public class MySQLPageHandlerImpl implements ISQLPageHandler {
             }
         }
         return sql.toString();
-
+    }
+    public int getTotalItems(String querySQL){
+        int count =0;
+        return count;
     }
 }
