@@ -19,8 +19,17 @@ public class MySQLPageHandlerImpl implements ISQLPageHandler {
         }
         return sql.toString();
     }
-    public int getTotalItems(String querySQL){
-        int count =0;
-        return count;
+
+    public String convertCountSQL(String querySQL){
+        String uppercaseStr = querySQL.toUpperCase();
+        int indexSelect = uppercaseStr.indexOf("SELECT");
+        int indexFrom = uppercaseStr.indexOf("FROM");
+        if(indexSelect < 0 || indexFrom <0){
+            return null;
+        }else{
+            StringBuffer buf = new StringBuffer(uppercaseStr.substring(indexFrom));
+            String sql = "SELECT COUNT(*) "+buf.toString();
+            return sql;
+        }
     }
 }

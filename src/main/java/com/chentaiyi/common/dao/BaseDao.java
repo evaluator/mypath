@@ -147,7 +147,9 @@ public class BaseDao<T> {
     public Page<T> findPage(final String sql,Object[] args, PageRequest pageRequest,Class<T> tClass){
         Page<T> page = new Page<T>(pageRequest);
         List<T> results = null;
-        page.setTotalItems(sqlPageHandler.getTotalItems(sql));
+        String countSql = sqlPageHandler.convertCountSQL(sql);
+        int totalItems = jdbcTemplate.queryForInt(countSql,args);
+        page.setTotalItems(totalItems);
         if(pageRequest.getPageNo() <= page.getTotalPages()) {
             String pagedSQL = sqlPageHandler.convertPageSQL(sql, pageRequest.getPageNo(), pageRequest.getPageSize());
             results = getRows(pagedSQL, args, tClass);
@@ -157,7 +159,8 @@ public class BaseDao<T> {
     }
 
     public int getlastPageNo(final String sql,Object[] args,int[] types,int pageSize){
-         int totalItems = jdbcTemplate.queryForInt(sql,args,types);
+         String countSql = sqlPageHandler.convertCountSQL(sql);
+         int totalItems = jdbcTemplate.queryForInt(countSql,args,types);
          PageRequest pageRequest = new PageRequest(1,pageSize);
          Page page = new Page(pageRequest);
          page.setTotalItems(totalItems);

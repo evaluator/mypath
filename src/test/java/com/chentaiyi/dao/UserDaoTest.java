@@ -27,7 +27,7 @@ public class UserDaoTest extends AbstractTransactionalTestNGSpringContextTests {
     void setUserDao(UserDao userDao){
         this.userDao = userDao;
     }
-    private long phone= 1300000027;
+    private long phone= 1300000029;
 
     @Test
     public void testGetMatchCount() throws Exception {

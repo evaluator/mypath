@@ -41,9 +41,9 @@ public class PositionDao extends BaseDao<Position> {
     public Page<Position> getUserPositions(long userid,Timestamp startTime,Timestamp endTime,int pageNo,int pageSize){
         Page<Position> positionPage = null;
         PageRequest pageRequest = new PageRequest(pageNo,pageSize);
-        if(startTime == null && endTime == null){
+        if(startTime == null || endTime == null){
             Object[] args={userid};
-            positionPage = findPage(QUERY_USER_POSITION_SQL,args,pageRequest,Position.class);
+            positionPage = null;
         }else{
             Object[] args={userid,startTime,endTime};
             positionPage = findPage(QUERY_USER_INTERVAL_POSITION_SQL,args,pageRequest,Position.class);
@@ -51,5 +51,11 @@ public class PositionDao extends BaseDao<Position> {
         return positionPage;
     }
 
-
+    public Page<Position> getUserPositions(long userid,int pageNo,int pageSize){
+        Page<Position> positionPage = null;
+        PageRequest pageRequest = new PageRequest(pageNo,pageSize);
+        Object[] args={userid};
+        positionPage = findPage(QUERY_USER_POSITION_SQL,args,pageRequest,Position.class);
+        return positionPage;
+    }
 }
