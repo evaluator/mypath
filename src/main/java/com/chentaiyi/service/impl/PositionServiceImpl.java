@@ -27,8 +27,7 @@ public class PositionServiceImpl implements PositionService {
             return null;
         }else{
             positionPage = positionDao.getUserPositions(userId,startTime,endTime,pageNo,pageSize);
-        }
-        return positionPage;
+        }        return positionPage;
     }
     @Override
     public Page<Position> getPagedUserPostions(long userId,int pageNo,int pageSize){
