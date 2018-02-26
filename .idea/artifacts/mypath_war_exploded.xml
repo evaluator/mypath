@@ -52,6 +52,7 @@
           <element id="library" level="project" name="Maven: org.unitils:unitils-io:3.4.2" />
           <element id="library" level="project" name="Maven: org.unitils:unitils-testng:3.4.2" />
           <element id="library" level="project" name="Maven: org.testng:testng:jdk15:5.8" />
+          <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.46" />
         </element>
       </element>
       <element id="directory" name="META-INF">

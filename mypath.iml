@@ -91,5 +91,6 @@
     <orderEntry type="library" name="Maven: org.unitils:unitils-io:3.4.2" level="project" />
     <orderEntry type="library" name="Maven: org.unitils:unitils-testng:3.4.2" level="project" />
     <orderEntry type="library" name="Maven: org.testng:testng:jdk15:5.8" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.46" level="project" />
   </component>
 </module>
